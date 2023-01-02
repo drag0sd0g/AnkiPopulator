@@ -1,0 +1,19 @@
+{
+  "action": "addNote",
+  "version": 6,
+  "params": {
+    "note": {
+      "deckName": "%s",
+      "modelName": "Basic",
+      "fields": {
+        "Expression": "%s",
+        "Reading": "%s",
+        "Meaning": "%s"
+      },
+      "options": {
+        "allowDuplicate": false,
+        "duplicateScope": "deck"
+      }
+    }
+  }
+}
