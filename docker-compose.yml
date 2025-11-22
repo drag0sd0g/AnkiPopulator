@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  anki:
+    image: katsana/anki-server:latest
+    container_name: anki-server
+    ports:
+      - "8765:8765"
+    environment:
+      - ANKI_SYNC_SERVER_ENABLED=false
+    networks:
+      - anki-network
+    restart: unless-stopped
+
+networks:
+  anki-network:
+    driver: bridge
