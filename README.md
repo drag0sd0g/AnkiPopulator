@@ -1,24 +1,38 @@
 # AnkiPopulator
 
-AnkiPopulator is a Java tool for automating the population of Anki decks with Japanese vocabulary, kanji, and expressions. It supports various file formats and integrates with Anki via its HTTP API. This tool is meant to help anyone study for their JLPT N1 exam.
+[![CI Build](https://github.com/drag0sd0g/AnkiPopulator/workflows/CI%20Build/badge.svg)](https://github.com/drag0sd0g/AnkiPopulator/actions/workflows/ci.yml)
+[![Code Coverage](https://github.com/drag0sd0g/AnkiPopulator/workflows/Code%20Coverage/badge.svg)](https://github.com/drag0sd0g/AnkiPopulator/actions/workflows/coverage.yml)
+[![Dependency Check](https://github.com/drag0sd0g/AnkiPopulator/workflows/Dependency%20Check/badge.svg)](https://github.com/drag0sd0g/AnkiPopulator/actions/workflows/dependency-check.yml)
+[![Java Version](https://img.shields.io/badge/Java-21-blue.svg)](https://www.oracle.com/java/technologies/downloads/#java21)
+[![Gradle Version](https://img.shields.io/badge/Gradle-8.11.1-blue.svg)](https://gradle.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+AnkiPopulator is a modern Java 21 tool for automating the population of Anki decks with Japanese vocabulary, kanji, and expressions. It supports various file formats and integrates with Anki via its HTTP API. This tool is designed to help anyone study for their JLPT N1 exam.
 
 ## Features
 
-- Parse and import vocabulary and kanji from multiple sources
-- Add notes to Anki using customizable templates
-- Read-only commands for deck management
-- Easily extensible with new parsers and templates
+- 🎯 Parse and import vocabulary and kanji from multiple sources
+- 📝 Add notes to Anki using customizable templates
+- 🔍 Read-only commands for deck management
+- 🚀 Modern CLI powered by picocli
+- 🐳 Docker support for local testing
+- ✅ Comprehensive unit and integration tests
+- 🏗️ SOLID principles architecture
+- 📦 Latest dependency versions
 
-## Folder Structure
+## Architecture
 
-- `src/main/java/com/dragos/anki/`: Main Java source code
-- `src/main/resources/`: Vocabulary and kanji files, templates, configuration
+The project follows SOLID principles with clear separation of concerns:
+- **Service Layer**: `AnkiService` interface for HTTP operations
+- **Parser Layer**: Extensible parsers for different file formats
+- **Configuration**: Centralized configuration management
+- **CLI**: Command-line interface with subcommands
 
 ## Prerequisites
 
-- Java 8 or higher
-- Gradle
-- **Anki must be running locally with the AnkiConnect add-on enabled**
+- **Java 21** or higher
+- **Gradle 8.11.1** (included via wrapper)
+- **Anki** with AnkiConnect add-on enabled (or use Docker setup)
 
 ## Getting Started
 
@@ -28,36 +42,106 @@ AnkiPopulator is a Java tool for automating the population of Anki decks with Ja
 ./gradlew build
 ```
 
-### Run
+### Run with CLI
 
-Example for running the main classes:
+The application provides a unified CLI with multiple subcommands:
 
 ```sh
-java -cp build/libs/AnkiPopulator.jar com.dragos.anki.AddAllJPNotesMain
+# Show help
+./gradlew run --args="--help"
+
+# Add all Japanese notes
+./gradlew run --args="add-all-jp"
+
+# Add vocabulary notes
+./gradlew run --args="add-vocabulary"
+
+# Add kanji notes
+./gradlew run --args="add-kanji"
+
+# Execute read-only commands
+./gradlew run --args="read-only"
 ```
 
-Replace `AddAllJPNotesMain` with any of the following as needed:
+### Using Docker for Local Testing
 
-- `AddKanjiNoteCommandsMain`
-- `AddVocabularyNoteCommandsMain`
-- `ReadOnlyCommandsMain`
+Start a containerized Anki server:
 
-## Usage
+```sh
+docker-compose up -d
+```
 
-- To add all Japanese notes: `AddAllJPNotesMain`
-- To add kanji notes: `AddKanjiNoteCommandsMain`
-- To add vocabulary notes: `AddVocabularyNoteCommandsMain`
-- For read-only commands: `ReadOnlyCommandsMain`
+This will start Anki server on port 8765.
+
+### Legacy Main Classes
+
+For backward compatibility, the original main classes are still available:
+
+```sh
+java -cp build/libs/AnkiPopulator-1.0-SNAPSHOT.jar com.dragos.anki.AddAllJPNotesMain
+```
+
+## Testing
+
+### Run Unit Tests
+
+```sh
+./gradlew test
+```
+
+### Run with Coverage
+
+```sh
+./gradlew test jacocoTestReport
+```
+
+Coverage reports are generated in `build/reports/jacoco/test/html/index.html`
+
+### Run Integration Tests
+
+Integration tests require Docker and are disabled by default:
+
+```sh
+ANKI_INTEGRATION_TESTS=true ./gradlew test
+```
 
 ## Configuration
 
-- Edit templates in `src/main/resources/templates/`
-- Manage deck names in `src/main/resources/readonly/deckNames.json`
-- Place vocabulary and kanji files in `src/main/resources/`
+- **Deck Names**: Configured in `AnkiConfiguration.java`
+- **Templates**: Edit templates in `src/main/resources/templates/`
+- **Vocabulary Files**: Place files in `src/main/resources/`
 
 ## Extending
 
-To add new parsers or support new file formats, extend the classes in `src/main/java/com/dragos/anki/parser/`.
+To add new parsers or support new file formats:
+
+1. Implement the `VocabularyFileParser` interface
+2. Extend `AbstractVocabularyFileParser` for common functionality
+3. Create a new command class in `com.dragos.anki.commands`
+4. Register the command in `AnkiPopulatorCLI`
+
+## Development
+
+### Check for Dependency Updates
+
+```sh
+./gradlew dependencyUpdates
+```
+
+### Build Distribution
+
+```sh
+./gradlew installDist
+```
+
+The distribution will be available in `build/install/AnkiPopulator/`
+
+## CI/CD
+
+The project uses GitHub Actions for:
+- **CI Build**: Automated builds and tests on every push
+- **Code Coverage**: Coverage reports with Jacoco
+- **Dependency Check**: Weekly dependency update checks
 
 ## License
 
@@ -66,3 +150,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 **Dragos** - [@drag0sd0g](https://github.com/drag0sd0g)
+
