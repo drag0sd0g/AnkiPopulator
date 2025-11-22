@@ -83,11 +83,13 @@ java -cp build/libs/AnkiPopulator-1.0-SNAPSHOT.jar com.dragos.anki.AddAllJPNotes
 
 ## Testing
 
-### Run Unit Tests
+### Run All Tests (Unit + Integration)
 
 ```sh
 ./gradlew test
 ```
+
+This runs both unit and integration tests. Integration tests use testcontainers and require Docker to be available.
 
 ### Run with Coverage
 
@@ -96,14 +98,6 @@ java -cp build/libs/AnkiPopulator-1.0-SNAPSHOT.jar com.dragos.anki.AddAllJPNotes
 ```
 
 Coverage reports are generated in `build/reports/jacoco/test/html/index.html`
-
-### Run Integration Tests
-
-Integration tests require Docker and are disabled by default:
-
-```sh
-ANKI_INTEGRATION_TESTS=true ./gradlew test
-```
 
 ## Configuration
 
