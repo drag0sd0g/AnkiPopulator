@@ -1,14 +1,14 @@
 package com.dragos.anki.parser;
 
-import com.dragos.anki.api.AnkiHttpClient;
+import com.dragos.anki.service.AnkiService;
 
 public class BasicVocabularyFileParser extends AbstractVocabularyFileParser {
 
     private final String ankiCommandTemplate;
     private final String deck;
 
-    public BasicVocabularyFileParser(String ankiCommandTemplate, String deck, AnkiHttpClient ankiHttpClient) {
-        super(ankiHttpClient);
+    public BasicVocabularyFileParser(String ankiCommandTemplate, String deck, AnkiService ankiService) {
+        super(ankiService);
         this.ankiCommandTemplate = ankiCommandTemplate;
         this.deck = deck;
     }

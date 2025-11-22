@@ -1,10 +1,10 @@
 package com.dragos.anki.commands;
 
-import com.dragos.anki.api.AnkiHttpClient;
-import org.apache.commons.io.FileUtils;
+import com.dragos.anki.config.AnkiConfiguration;
+import com.dragos.anki.service.AnkiServiceImpl;
+import com.dragos.anki.service.TemplateLoader;
 import picocli.CommandLine.Command;
 
-import java.io.File;
 import java.util.concurrent.Callable;
 
 @Command(
@@ -15,14 +15,11 @@ public class ReadOnlyCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        File ankiCommandJSONFile = new File(
-            ReadOnlyCommand.class.getClassLoader()
-                .getResource("readonly/deckNames.json")
-                .getFile()
-        );
-        String ankiCommandAsJson = FileUtils.readFileToString(ankiCommandJSONFile, "UTF-8");
-        AnkiHttpClient ankiHttpClient = new AnkiHttpClient();
-        String result = ankiHttpClient.postCommandToAnki(ankiCommandAsJson);
+        TemplateLoader templateLoader = new TemplateLoader();
+        String ankiCommandAsJson = templateLoader.loadTemplate(AnkiConfiguration.TEMPLATE_READONLY_DECKNAMES);
+        
+        AnkiServiceImpl ankiService = new AnkiServiceImpl();
+        String result = ankiService.postCommand(ankiCommandAsJson);
         System.out.println(result);
         return 0;
     }

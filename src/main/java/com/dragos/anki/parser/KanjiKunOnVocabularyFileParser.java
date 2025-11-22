@@ -1,14 +1,14 @@
 package com.dragos.anki.parser;
 
-import com.dragos.anki.api.AnkiHttpClient;
+import com.dragos.anki.service.AnkiService;
 
 public class KanjiKunOnVocabularyFileParser extends AbstractVocabularyFileParser {
 
     private final String ankiCommandTemplate;
     private final String deck;
 
-    public KanjiKunOnVocabularyFileParser(String ankiCommandTemplate, String deck, AnkiHttpClient ankiHttpClient) {
-        super(ankiHttpClient);
+    public KanjiKunOnVocabularyFileParser(String ankiCommandTemplate, String deck, AnkiService ankiService) {
+        super(ankiService);
         this.ankiCommandTemplate = ankiCommandTemplate;
         this.deck = deck;
     }

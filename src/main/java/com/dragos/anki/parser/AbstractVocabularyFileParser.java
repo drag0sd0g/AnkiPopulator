@@ -1,7 +1,7 @@
 package com.dragos.anki.parser;
 
 import com.dragos.anki.ReadOnlyCommandsMain;
-import com.dragos.anki.api.AnkiHttpClient;
+import com.dragos.anki.service.AnkiService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,10 +11,10 @@ import java.util.Scanner;
 
 public abstract class AbstractVocabularyFileParser implements VocabularyFileParser {
 
-    private final AnkiHttpClient ankiHttpClient;
+    private final AnkiService ankiService;
 
-    public AbstractVocabularyFileParser(AnkiHttpClient ankiHttpClient) {
-        this.ankiHttpClient = ankiHttpClient;
+    public AbstractVocabularyFileParser(AnkiService ankiService) {
+        this.ankiService = ankiService;
     }
 
     @Override
@@ -28,7 +28,7 @@ public abstract class AbstractVocabularyFileParser implements VocabularyFilePars
             String line = scanner.nextLine();
             if (!line.isEmpty()) {
                 String formattedJSONAnkiCommandRequest = createAnkiJsonCommand(line);
-                String resultAsJsonString = ankiHttpClient.postCommandToAnki(formattedJSONAnkiCommandRequest);
+                String resultAsJsonString = ankiService.postCommand(formattedJSONAnkiCommandRequest);
                 JsonNode resultAsJson = objectMapper.readTree(resultAsJsonString);
                 String errorFieldInJsonResult = resultAsJson.get("error").asText();
                 String resultFieldInJsonResult = resultAsJson.get("result").asText();
