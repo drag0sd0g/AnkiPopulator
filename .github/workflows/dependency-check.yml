@@ -9,6 +9,9 @@ on:
     - cron: '0 0 * * 0'  # Weekly on Sunday at midnight
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   dependency-check:
     runs-on: ubuntu-latest

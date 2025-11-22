@@ -30,7 +30,7 @@ class TemplateLoaderTest {
     @Test
     void testLoadTemplate_InvalidPath() {
         // Act & Assert
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             templateLoader.loadTemplate("nonexistent/template.json");
         });
     }
